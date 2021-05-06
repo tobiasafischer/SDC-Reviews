@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const reviewSchema = mongoose.Schema({
+  review_id: Number,
   product_id: Number,
   rating: Number,
   date: String,

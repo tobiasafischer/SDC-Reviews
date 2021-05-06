@@ -1,4 +1,3 @@
-const fs = require('fs');
 const path = require('path');
 const csv = require('fast-csv');
 const mongoose = require('mongoose');
@@ -21,11 +20,36 @@ const format = (data) => {
   return data === 'true';
 };
 
+const parsePhoto = (file) => {
+  csv
+    .parseFile(file, { headers: true, maxRows: 5 })
+    .on('data', (data) => {
+      console.log(parseInt(data.review_id, 10));
+      Review.findOneAndUpdate({ review_id: parseInt(data.review_id, 10) },
+        {
+          $push: {
+            photos: { url: data.url },
+          },
+        })
+        .exec((err, res) => {
+          if (err) console.log(err);
+          else console.log(res);
+        });
+    })
+    .on('error', (error) => {
+      console.log(`There is an error in processing: ${error}`);
+    })
+    .on('end', () => {
+      console.log('done');
+    });
+};
+
 const parseReview = (file) => {
   csv
     .parseFile(file, { headers: true, maxRows: 5 })
     .on('data', (data) => {
       const reviewModel = new Review({
+        review_id: parseInt(data.id, 10),
         product_id: parseInt(data.product_id, 10),
         rating: parseInt(data.rating, 10),
         date: data.date,
@@ -52,29 +76,9 @@ const parseReview = (file) => {
     })
     .on('end', () => {
       console.log('done');
+      parsePhoto(path.resolve(__dirname, '../sdc-files', 'reviews_photos.csv'));
     });
 };
 
-const parsePhoto = (file) => {
-  fs.createReadStream(file)
-    .pipe(csv.parse({ headers: true, maxRows: 5 }))
-    .pipe(csv.format({ headers: true }))
-    .transform((row, next) => {
-      MetaData.findById(row.id, (err) => {
-        if (err) {
-          return next(err);
-        }
-        return next(null, {
-          id: row.id,
-          review_id: row.review_id,
-          url: row.url,
-        });
-      });
-    })
-    .pipe(process.stdout)
-    .on('end', () => process.exit());
-};
-
 parseReview(path.resolve(__dirname, '../sdc-files', 'reviews.csv'));
-
 export default { parseReview, parsePhoto };
