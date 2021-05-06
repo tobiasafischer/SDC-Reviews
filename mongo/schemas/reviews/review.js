@@ -1,53 +1,21 @@
 import mongoose from 'mongoose';
 
 const reviewSchema = mongoose.Schema({
-  review_id: Number,
-  product_id: Number,
-  rating: Number,
+  review_id: String,
+  product_id: String,
+  rating: String,
   date: String,
   summary: String,
   body: String,
-  recommend: Boolean,
-  reported: Boolean,
+  recommend: String,
+  reported: String,
   reviewer_name: String,
   reviewer_email: String,
   response: String,
-  helpfulness: Number,
+  helpfulness: String,
   photos: [{
     url: String,
   }],
 });
 
 export default reviewSchema;
-
-/*
-{
-  product: 1,
-  rating: 5,
-  summary: 'adwoiadwjoi',
-  recommend: 1,
-  response: null,
-  body: 'adoijwawdo',
-  helpfulness: 3,
-  email: 'adspkoi',
-  photos: [],
-}
-
-query
-{
-  [1]
-  product: 1,
-  rating: 5,
-  summary: 'adwoiadwjoi',
-  recommend: 1,
-  response: null,
-  body: 'adoijwawdo',
-  helpfulness: 3,
-  email: 'adspkoi',
-  photos: [],
-}
-.then
-review_id 1
-url string
-.then
-*/

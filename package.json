@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon --exec babel-node mongo/mongo.js",
     "parse": "nodemon --exec babel-node server/csv-parser.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed": "mongoimport -d reviews -c reviews --type csv --file ./sdc-files/reviews.csv --headerline"
   },
   "repository": {
     "type": "git",
