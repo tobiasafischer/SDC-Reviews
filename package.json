@@ -4,7 +4,7 @@
   "description": "Microservice for restful api",
   "main": "server/server.js",
   "scripts": {
-    "start": "nodemon --exec babel-node mongo/mongo.js",
+    "start": "nodemon --exec babel-node server/server.js",
     "parse": "nodemon --exec babel-node server/csv-parser.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "mongoimport -d reviews -c reviews --type csv --file ./sdc-files/reviews.csv --headerline"
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/tobiasafischer/SDC-Reviews#readme",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "fast-csv": "^4.3.6",

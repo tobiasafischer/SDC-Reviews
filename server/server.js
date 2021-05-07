@@ -1,13 +1,52 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const { getReviews } = require('./server-logic/get-reviews').default;
+const { postReviews } = require('./server-logic/post-reviews').default;
 
 const app = express();
 const port = process.env.PORT || 8080; // set our port
 const router = express.Router(); // get an instance of the express Router
+app.use(express.json({ limit: '50mb', extended: true }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+const url = 'mongodb://localhost:27017/reviews';
+
+mongoose.connect(url, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+});
 
 router.get('/', (req, res) => {
   res.json({ message: 'hooray! welcome to our api!' });
 });
 
+router.get('/reviews', (req, res) => {
+  getReviews(1, 5, 's', 5)
+    .then((json) => {
+      console.log(json);
+      res.json(json);
+    });
+});
+
+router.get('/reviews/meta', (req, res) => {
+  res.json({ message: 'meta' });
+});
+
+router.post('/reviews', (req, res) => {
+  postReviews(req.body)
+    .then((val) => {
+      // if (err) res.sendStatus(500);
+      console.log(val);
+      res.sendStatus(201);
+    });
+});
+
+router.put('/reviews/:review_id/helpful', (req, res) => {
+  res.json({ message: 'helpful' });
+});
+
+router.put('/reviews/:review_id/report', (req, res) => {
+  res.json({ message: 'report' });
+});
 app.use('/api', router);
 
 app.listen(port);

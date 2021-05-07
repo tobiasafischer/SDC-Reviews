@@ -17,12 +17,12 @@ mongoose.connect(url, {
   useNewUrlParser: true,
 });
 
-// const format = (data) => {
-//   if (data === '1' || data === '0') {
-//     return data === '1';
-//   }
-//   return data === 'true';
-// };
+const format = (data) => {
+  if (data === '1' || data === '0') {
+    return data === '1';
+  }
+  return data === 'true';
+};
 
 const parsePhoto = (file) => {
   csv
@@ -31,7 +31,7 @@ const parsePhoto = (file) => {
       Review.updateMany({ review_id: data.review_id },
         {
           $push: {
-            photos: { url: data.url },
+            photos: data.url,
           },
         })
         .exec((err) => {
@@ -55,18 +55,18 @@ const parseReview = (file) => {
     .parseFile(file, { headers: true, maxRows: 50000 })
     .on('data', (data) => {
       arr.push(new Review({
-        review_id: data.id,
+        review_id: parseInt(data.id, 10),
         product_id: data.product_id,
-        rating: data.rating,
+        rating: parseInt(data.rating, 10),
         date: data.date,
         summary: data.summary,
         body: data.body,
-        recommend: data.recommend,
-        reported: data.reported,
+        recommend: format(data.recommend),
+        reported: format(data.reported),
         reviewer_name: data.reviewer_name,
         reviewer_email: data.reviewer_email,
         response: data.response,
-        helpfulness: data.helpfulness,
+        helpfulness: parseInt(data.helpfulness, 10),
         photos: [],
       }));
       if (counterR % 1000 === 0) {
