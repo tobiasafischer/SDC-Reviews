@@ -15,20 +15,3 @@ const postReviews = async (data) => {
 };
 
 export default { postReviews };
-
-// const params = {
-//   product_id: productId,
-//   rating: rating / 4,
-//   summary,
-//   body,
-//   recommend: Boolean(recommend),
-//   name,
-//   email,
-//   photos: formattedPhotos,
-//   characteristics: {
-//     53846: 5,
-//     53847: 5,
-//     53848: 3,
-//     53849: 3,
-//   },
-// };

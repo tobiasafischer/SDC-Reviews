@@ -78,8 +78,6 @@ const metaDataSchema = mongoose.Schema({
       default: 0,
     },
   },
-}, {
-  timestamps: true,
 });
 
 const MetaData = mongoose.model('MetaData', metaDataSchema);

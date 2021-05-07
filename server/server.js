@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { getReviews } = require('./server-logic/get-reviews').default;
 const { postReviews } = require('./server-logic/post-reviews').default;
+const { updateHelpful } = require('./server-logic/update-helpful').default;
+const { updateReport } = require('./server-logic/update-report').default;
 
 const app = express();
 const port = process.env.PORT || 8080; // set our port
@@ -21,9 +23,16 @@ router.get('/', (req, res) => {
 
 router.get('/reviews', (req, res) => {
   getReviews(1, 5, 's', 5)
-    .then((json) => {
-      console.log(json);
-      res.json(json);
+    .then((jsons) => {
+      res.json(jsons.filter((json) => !json.reported));
+    });
+});
+
+router.post('/reviews', (req, res) => {
+  postReviews(req.body)
+    .then((err) => {
+      if (err) res.sendStatus(500);
+      else res.sendStatus(201);
     });
 });
 
@@ -31,21 +40,20 @@ router.get('/reviews/meta', (req, res) => {
   res.json({ message: 'meta' });
 });
 
-router.post('/reviews', (req, res) => {
-  postReviews(req.body)
-    .then((val) => {
-      // if (err) res.sendStatus(500);
-      console.log(val);
-      res.sendStatus(201);
+router.put('/reviews/:review_id/helpful', (req, res) => {
+  updateHelpful(req.params.review_id)
+    .then((err) => {
+      if (err) res.sendStatus(204);
+      else res.sendStatus(200);
     });
 });
 
-router.put('/reviews/:review_id/helpful', (req, res) => {
-  res.json({ message: 'helpful' });
-});
-
 router.put('/reviews/:review_id/report', (req, res) => {
-  res.json({ message: 'report' });
+  updateReport(req.params.review_id)
+    .then((err) => {
+      if (err) res.sendStatus(204);
+      else res.sendStatus(200);
+    });
 });
 app.use('/api', router);
 
