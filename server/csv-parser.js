@@ -2,10 +2,10 @@ const path = require('path');
 const csv = require('fast-csv');
 const mongoose = require('mongoose');
 const reviewSchema = require('../mongo/schemas/reviews/review');
-const metaDataSchema = require('../mongo/schemas/reviews/metadata');
+// const metaDataSchema = require('../mongo/schemas/reviews/metadata');
 
 const Review = mongoose.model('Reviews', reviewSchema.default);
-const MetaData = mongoose.model('MetaData', metaDataSchema.default);
+// const MetaData = mongoose.model('MetaData', metaDataSchema.default);
 
 const url = 'mongodb://localhost:27017/reviews';
 
@@ -13,6 +13,7 @@ let counterR = 0;
 const max = 5777923;
 let counterP = 0;
 const maxP = 2742833;
+let counterC = 0;
 mongoose.connect(url, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
@@ -87,6 +88,97 @@ const format = (data) => {
 //     });
 // };
 
+const parseCharacteristics = (file) => {
+  let arr = [];
+  csv
+    .parseFile(file, { headers: true, maxRows: 50000 })
+    .on('data', (data) => {
+      let fit; let length; let comfort; let
+        quality; let size; let width;
+      switch (data.name) {
+        case 'Size':
+          size = data.id;
+          break;
+        case 'Fit':
+          fit = data.id;
+          break;
+        case 'Width':
+          width = data.id;
+          break;
+        case 'Length':
+          length = data.id;
+          break;
+        case 'Comfort':
+          comfort = data.id;
+          break;
+        case 'Quality':
+          quality = data.id;
+          break;
+        default:
+          break;
+      }
+
+      arr.push(new Review({
+        product_id: data.product_id,
+        ratings: {
+          0: 0,
+          1: 0,
+          2: 0,
+          3: 0,
+          4: 0,
+          5: 0,
+        },
+        recommended: {
+          0: 0,
+          1: 1,
+        },
+        characteristics: {
+          Size: {
+            id: size,
+            value: '4.0000',
+          },
+          Fit: {
+            id: fit,
+            value: '4.0000',
+          },
+          Width: {
+            id: width,
+            value: '4.0000',
+          },
+          Length: {
+            id: length,
+            value: '4.0000',
+          },
+          Comfort: {
+            id: comfort,
+            value: '4.0000',
+          },
+          Quality: {
+            id: quality,
+            value: '4.0000',
+          },
+        },
+      }));
+      if (counterC % 1000 === 0) {
+        Review.insertMany(arr, (err) => {
+          if (err) {
+            console.log(`There is an error in processing data: ${err}`);
+          } else {
+            console.log(`Inserted ${counterC} reviews.`);
+            arr = [];
+          }
+        });
+      }
+      counterC += 1;
+    })
+    .on('error', (error) => {
+      console.log(`There is an error in processing: ${error}`);
+    })
+    .on('end', () => {
+      // parsePhoto(path.resolve(__dirname, '../sdc-files', 'reviews_photos.csv'));
+    });
+};
+
 const parsePhoto = (file) => {
   csv
     .parseFile(file, { headers: true, maxRows: 10000 })
@@ -149,9 +241,9 @@ const parseReview = (file) => {
       console.log(`There is an error in processing: ${error}`);
     })
     .on('end', () => {
-      parsePhoto(path.resolve(__dirname, '../sdc-files', 'reviews_photos.csv'));
+      parsePhoto(path.resolve(__dirname, '/sdc-files', 'reviews_photos.csv'));
     });
 };
 
-parseReview(path.resolve(__dirname, '../sdc-files', 'reviews.csv'));
+parseReview(path.resolve(__dirname, '/sdc-files', 'reviews.csv'));
 export default { parseReview, parsePhoto };

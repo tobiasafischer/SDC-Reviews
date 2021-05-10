@@ -4,6 +4,7 @@ const { getReviews } = require('./server-logic/get-reviews').default;
 const { postReviews } = require('./server-logic/post-reviews').default;
 const { updateHelpful } = require('./server-logic/update-helpful').default;
 const { updateReport } = require('./server-logic/update-report').default;
+const { getMetaData } = require('./server-logic/get-metadata').default;
 
 const app = express();
 const port = process.env.PORT || 8080; // set our port
@@ -37,7 +38,13 @@ router.post('/reviews', (req, res) => {
 });
 
 router.get('/reviews/meta', (req, res) => {
-  res.json({ message: 'meta' });
+  getMetaData()
+    .then((val) => {
+      res.json(val);
+    })
+    .catch(() => {
+      res.sendStatus(500);
+    });
 });
 
 router.put('/reviews/:review_id/helpful', (req, res) => {

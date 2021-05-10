@@ -47,6 +47,15 @@ const metaDataSchema = mongoose.Schema({
         default: '0.0000',
       },
     },
+    Fit: {
+      id: {
+        type: Number,
+      },
+      value: {
+        type: String,
+        default: '0.0000',
+      },
+    },
     Width: {
       id: {
         type: Number,
@@ -56,7 +65,25 @@ const metaDataSchema = mongoose.Schema({
         default: '0.0000',
       },
     },
+    Length: {
+      id: {
+        type: Number,
+      },
+      value: {
+        type: String,
+        default: '0.0000',
+      },
+    },
     Comfort: {
+      id: {
+        type: Number,
+      },
+      value: {
+        type: String,
+        default: '0.0000',
+      },
+    },
+    Quality: {
       id: {
         type: Number,
       },
