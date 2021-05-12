@@ -1,0 +1,1 @@
+mongoimport -d reviews -c characteristics --type csv --file ./sdc-files/characteristics.csv --headerline

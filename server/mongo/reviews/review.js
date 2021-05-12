@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
 const reviewSchema = mongoose.Schema({
-  review_id: Number,
-  product_id: String,
+  review_id: { type: Number, index: { unique: true } },
+  product_id: { type: String, index: 1 },
   rating: Number,
   date: String,
   summary: String,

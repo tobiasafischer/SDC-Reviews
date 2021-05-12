@@ -5,6 +5,7 @@ const { postReviews } = require('./server-logic/post-reviews').default;
 const { updateHelpful } = require('./server-logic/update-helpful').default;
 const { updateReport } = require('./server-logic/update-report').default;
 const { getMetaData } = require('./server-logic/get-metadata').default;
+require('regenerator-runtime');
 
 const app = express();
 const port = process.env.PORT || 8080; // set our port
@@ -18,14 +19,22 @@ mongoose.connect(url, {
   useNewUrlParser: true,
 });
 
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+
 router.get('/', (req, res) => {
   res.json({ message: 'hooray! welcome to our api!' });
 });
 
 router.get('/reviews', (req, res) => {
-  getReviews(1, 5, 's', 5)
+  getReviews({
+    product_id: parseInt(req.query.product_id, 10),
+    page: parseInt(req.query.page, 10),
+    count: parseInt(req.query.count, 10),
+  })
     .then((jsons) => {
-      res.json(jsons.filter((json) => !json.reported));
+      res.json(jsons.results.filter((json) => !json.reported));
     });
 });
 

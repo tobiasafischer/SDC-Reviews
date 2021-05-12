@@ -3,11 +3,16 @@
   "version": "1.0.0",
   "description": "Microservice for restful api",
   "main": "server/server.js",
+  "jest": {
+    "setupTestFrameworkScriptFile": "./tests/setup.js"
+  },
   "scripts": {
-    "start": "nodemon --exec babel-node server/server.js",
-    "parse": "nodemon --exec babel-node server/bingyi.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "seed": "mongoimport -d reviews -c reviews --type csv --file ./sdc-files/reviews.csv --headerline"
+    "start": "node dist/server.js",
+    "parse": "node dist/parsing/metadata.js",
+    "test": "babel-node testing/reviews.js",
+    "seed": "mongoimport -d reviews -c reviews --type csv --file ./sdc-files/reviews.csv --headerline",
+    "build": "npm run clean && babel server --out-dir dist",
+    "clean": "rimraf dist && mkdir dist"
   },
   "repository": {
     "type": "git",
@@ -24,14 +29,14 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "fast-csv": "^4.3.6",
-    "line-input-stream": "^1.0.1",
-    "mongodb": "^3.6.6",
-    "mongoose": "^5.12.7"
+    "mongoose": "^5.12.7",
+    "regenerator-runtime": "^0.13.7",
+    "rimraf": "^3.0.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.16",
-    "@babel/core": "^7.14.0",
-    "@babel/node": "^7.13.13",
+    "@babel/core": "^7.14.2",
+    "@babel/node": "^7.14.2",
     "@babel/preset-env": "^7.14.1",
     "eslint": "^7.2.0",
     "eslint-config-airbnb": "^18.2.1",

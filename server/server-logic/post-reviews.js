@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable camelcase */
 const mongoose = require('mongoose');
-const reviewSchema = require('../../mongo/schemas/reviews/review');
+const reviewSchema = require('../mongo/reviews/review');
 
 const Review = mongoose.model('Reviews', reviewSchema.default);
 

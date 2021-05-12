@@ -1,9 +1,11 @@
 import mongoose from 'mongoose';
 
 const metaDataSchema = mongoose.Schema({
+  charId: { type: Number, index: { unique: true } },
   product: {
     type: Number,
     required: true,
+    index: true,
   },
   ratings: {
     0: {
