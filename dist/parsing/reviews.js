@@ -16,7 +16,7 @@ var reviewSchema = require('../mongo/reviews/review');
 var parsePhoto = require('./photos')["default"].parsePhoto;
 
 var Review = mongoose.model('Reviews', reviewSchema["default"]);
-var url = 'mongodb://ec2-13-57-181-38.us-west-1.compute.amazonaws.com:27017/reviews';
+var url = 'mongodb://184.72.33.220/reviews';
 var counter = 0;
 var max = 5777923;
 mongoose.connect(url, {

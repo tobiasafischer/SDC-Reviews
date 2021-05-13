@@ -17,7 +17,7 @@ var getMetaData = require('./server-logic/get-metadata')["default"].getMetaData;
 require('regenerator-runtime');
 
 var app = express();
-var port = process.env.PORT || 8080; // set our port
+var port = process.env.PORT || 3000; // set our port
 
 var router = express.Router(); // get an instance of the express Router
 
@@ -29,7 +29,7 @@ app.use(express.urlencoded({
   limit: '50mb',
   extended: true
 }));
-var url = 'mongodb://ec2-13-57-181-38.us-west-1.compute.amazonaws.com:27017/reviews';
+var url = 'mongodb://184.72.33.220:27017/reviews';
 mongoose.connect(url, {
   useUnifiedTopology: true,
   useNewUrlParser: true
