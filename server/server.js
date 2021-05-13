@@ -12,7 +12,7 @@ const port = process.env.PORT || 8080; // set our port
 const router = express.Router(); // get an instance of the express Router
 app.use(express.json({ limit: '50mb', extended: true }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
-const url = 'mongodb://ec2-13-57-181-38.us-west-1.compute.amazonaws.com:27017/reviews';
+const url = 'mongodb://172.31.14.244:27017/reviews';
 
 mongoose.connect(url, {
   useUnifiedTopology: true,
