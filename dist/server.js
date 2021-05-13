@@ -29,7 +29,7 @@ app.use(express.urlencoded({
   limit: '50mb',
   extended: true
 }));
-var url = 'mongodb://localhost:27017/reviews';
+var url = 'mongodb://ec2-13-57-181-38.us-west-1.compute.amazonaws.com:27017/reviews';
 mongoose.connect(url, {
   useUnifiedTopology: true,
   useNewUrlParser: true
