@@ -8,7 +8,7 @@ const { getMetaData } = require('./server-logic/get-metadata').default;
 require('regenerator-runtime');
 
 const app = express();
-const port = process.env.PORT || 8080; // set our port
+const port = process.env.PORT || 3000; // set our port
 const router = express.Router(); // get an instance of the express Router
 app.use(express.json({ limit: '50mb', extended: true }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
