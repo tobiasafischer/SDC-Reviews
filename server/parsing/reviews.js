@@ -6,7 +6,7 @@ const { parsePhoto } = require('./photos').default;
 
 const Review = mongoose.model('Reviews', reviewSchema.default);
 
-const url = 'mongodb://172.31.14.244/reviews';
+const url = 'mongodb://127.0.0.1/reviews';
 
 let counter = 0;
 const max = 5777923;
