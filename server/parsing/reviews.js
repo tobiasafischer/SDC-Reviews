@@ -59,7 +59,7 @@ const parseReview = (file) => {
       console.log(`There is an error in processing: ${error}`);
     })
     .on('end', () => {
-      parsePhoto(path.resolve(__dirname, '../../sdc-files', 'reviews_photos.csv'));
+      // parsePhoto(path.resolve(__dirname, '../../sdc-files', 'reviews_photos.csv'));
     });
 };
 
