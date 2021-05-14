@@ -1,18 +1,19 @@
 const express = require('express');
 const mongoose = require('mongoose');
+require('regenerator-runtime');
+
 const { getReviews } = require('./server-logic/get-reviews').default;
 const { postReviews } = require('./server-logic/post-reviews').default;
 const { updateHelpful } = require('./server-logic/update-helpful').default;
 const { updateReport } = require('./server-logic/update-report').default;
 const { getMetaData } = require('./server-logic/get-metadata').default;
-require('regenerator-runtime');
 
 const app = express();
 const port = process.env.PORT || 3000; // set our port
 const router = express.Router(); // get an instance of the express Router
 app.use(express.json({ limit: '50mb', extended: true }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
-const url = 'mongodb://localhost:27017/reviews';
+const url = 'mongodb://184.72.33.220:27017/reviews';
 
 mongoose.connect(url, {
   useUnifiedTopology: true,
