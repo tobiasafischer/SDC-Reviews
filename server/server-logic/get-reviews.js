@@ -6,7 +6,7 @@ require('regenerator-runtime');
 const Review = mongoose.model('Reviews', reviewSchema.default);
 
 const getReviews = async ({ product_id, page, count }) => {
-  const vals = async () => Review.find({ product_id }).select('-__v -_id -product_id').limit(count).skip(count * page);
+  const vals = async () => Review.find({ product_id }).select('-__v -_id -product_id').limit(count).skip(count * page - 1);
   return vals().then((res) => ({
     product: `${product_id}`,
     page,
