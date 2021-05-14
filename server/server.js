@@ -29,12 +29,14 @@ router.get('/', (req, res) => {
 });
 
 router.get('/reviews', (req, res) => {
+  console.log(req.query);
   getReviews({
     product_id: parseInt(req.query.product_id, 10),
     page: parseInt(req.query.page, 10),
     count: parseInt(req.query.count, 10),
   })
     .then((jsons) => {
+      console.log(jsons);
       res.json(jsons.results.filter((json) => !json.reported));
     });
 });
