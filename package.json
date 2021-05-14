@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node dist/server.js",
-    "parse": "node dist/parsing/metadata.js",
+    "parse": "node dist/parsing/reviews.js",
     "test": "babel-node testing/reviews.js",
     "seed": "mongoimport -d reviews -c reviews --type csv --file ./sdc-files/reviews.csv --headerline",
     "build": "npm run clean && babel server --out-dir dist",
