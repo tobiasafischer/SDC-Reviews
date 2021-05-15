@@ -29,6 +29,10 @@ app.get('/', (req, res) => {
   res.json({ message: 'hooray! welcome to our api!' });
 });
 
+app.get('/loaderio-d70ce9175132d999fa0f36bf2d214fb0', (req, res) => {
+  res.sendFile(path.join(__dirname, '../loaderio-d70ce9175132d999fa0f36bf2d214fb0.txt'));
+});
+
 app.get('/reviews', (req, res) => {
   console.log(req.query);
   getReviews({

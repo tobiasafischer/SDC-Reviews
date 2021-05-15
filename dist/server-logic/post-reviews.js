@@ -20,21 +20,20 @@ var Review = mongoose.model('Reviews', reviewSchema["default"]);
 
 var postReviews = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(data) {
+    var newReview;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            Review.find().sort({
-              review_id: -1
-            }).limit(1).then(function (val) {
-              data.review_id = val[0].review_id + 1;
-              var newReview = new Review(data);
-              return newReview.save(function (err) {
-                return err;
-              });
-            });
+            //  Review.find().sort({ review_id: -1 }).limit(1)
+            //  .then((val) => {
+            // data.review_id = val[0].review_id + 1;
+            newReview = new Review(data);
+            return _context.abrupt("return", newReview.save(function (err) {
+              return err;
+            }));
 
-          case 1:
+          case 2:
           case "end":
             return _context.stop();
         }
