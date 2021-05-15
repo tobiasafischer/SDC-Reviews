@@ -41,6 +41,8 @@ router.get('/reviews', (req, res) => {
     });
 });
 
+router.get('/')
+
 router.post('/reviews', (req, res) => {
   postReviews(req.body)
     .then((err) => {
@@ -74,7 +76,7 @@ router.put('/reviews/:review_id/report', (req, res) => {
       else res.sendStatus(200);
     });
 });
-app.use('/api', router);
+app.use('/', router);
 
 app.listen(port);
 console.log(`Magic happens on port ${port}`);
