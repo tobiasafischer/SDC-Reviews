@@ -14,7 +14,7 @@ const port = process.env.PORT || 3000; // set our port
 app.use(express.json({ limit: '50mb', extended: true }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-const url = 'mongodb://localhost:27017/reviews';
+const url = 'mongodb://184.72.33.220:27017/reviews';
 
 mongoose.connect(url, {
   useUnifiedTopology: true,
