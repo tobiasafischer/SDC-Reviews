@@ -35,7 +35,7 @@ var getReviews = /*#__PURE__*/function () {
                       case 0:
                         return _context.abrupt("return", Review.find({
                           product_id: product_id
-                        }).select('-__v -_id -product_id').limit(count).skip(count * page));
+                        }).select('-__v -_id -product_id').limit(count));
 
                       case 1:
                       case "end":
@@ -48,7 +48,8 @@ var getReviews = /*#__PURE__*/function () {
               return function vals() {
                 return _ref3.apply(this, arguments);
               };
-            }();
+            }(); // .skip(count * page - 1);
+
 
             return _context2.abrupt("return", vals().then(function (res) {
               return {

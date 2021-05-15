@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
 require('regenerator-runtime');
 
 const { getReviews } = require('./server-logic/get-reviews').default;
@@ -10,10 +11,10 @@ const { getMetaData } = require('./server-logic/get-metadata').default;
 
 const app = express();
 const port = process.env.PORT || 3000; // set our port
-const router = express.Router(); // get an instance of the express Router
 app.use(express.json({ limit: '50mb', extended: true }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
-const url = 'mongodb://184.72.33.220:27017/reviews';
+
+const url = 'mongodb://localhost:27017/reviews';
 
 mongoose.connect(url, {
   useUnifiedTopology: true,
@@ -24,11 +25,11 @@ mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
-router.get('/', (req, res) => {
+app.get('/', (req, res) => {
   res.json({ message: 'hooray! welcome to our api!' });
 });
 
-router.get('/reviews', (req, res) => {
+app.get('/reviews', (req, res) => {
   console.log(req.query);
   getReviews({
     product_id: parseInt(req.query.product_id, 10),
@@ -41,9 +42,7 @@ router.get('/reviews', (req, res) => {
     });
 });
 
-router.get('/')
-
-router.post('/reviews', (req, res) => {
+app.post('/reviews', (req, res) => {
   postReviews(req.body)
     .then((err) => {
       if (err) res.sendStatus(500);
@@ -51,7 +50,7 @@ router.post('/reviews', (req, res) => {
     });
 });
 
-router.get('/reviews/meta', (req, res) => {
+app.get('/reviews/meta', (req, res) => {
   getMetaData()
     .then((val) => {
       res.json(val);
@@ -61,7 +60,7 @@ router.get('/reviews/meta', (req, res) => {
     });
 });
 
-router.put('/reviews/:review_id/helpful', (req, res) => {
+app.put('/reviews/:review_id/helpful', (req, res) => {
   updateHelpful(req.params.review_id)
     .then((err) => {
       if (err) res.sendStatus(204);
@@ -69,14 +68,13 @@ router.put('/reviews/:review_id/helpful', (req, res) => {
     });
 });
 
-router.put('/reviews/:review_id/report', (req, res) => {
+app.put('/reviews/:review_id/report', (req, res) => {
   updateReport(req.params.review_id)
     .then((err) => {
       if (err) res.sendStatus(204);
       else res.sendStatus(200);
     });
 });
-app.use('/', router);
 
 app.listen(port);
 console.log(`Magic happens on port ${port}`);

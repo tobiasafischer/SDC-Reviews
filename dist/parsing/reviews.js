@@ -16,7 +16,7 @@ var reviewSchema = require('../mongo/reviews/review');
 var parsePhoto = require('./photos')["default"].parsePhoto;
 
 var Review = mongoose.model('Reviews', reviewSchema["default"]);
-var url = 'mongodb://184.72.33.220/reviews';
+var url = 'mongodb://184.72.33.220:27017/reviews';
 var counter = 0;
 var max = 5777923;
 mongoose.connect(url, {
@@ -69,8 +69,7 @@ var parseReview = function parseReview(file) {
     counter += 1;
   }).on('error', function (error) {
     console.log("There is an error in processing: ".concat(error));
-  }).on('end', function () {
-    parsePhoto(path.resolve(__dirname, '../../sdc-files', 'reviews_photos.csv'));
+  }).on('end', function () {// parsePhoto(path.resolve(__dirname, '../../sdc-files', 'reviews_photos.csv'));
   });
 };
 
